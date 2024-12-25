@@ -1,0 +1,154 @@
+@default-width: 220px;
+@range-width: 320px;
+@header-height: 80px;
+@tabs-height: 0px;
+@footer-height: 80px;
+@colpase-height: 44px;
+@main-content-width: 1200px;
+
+// 解决 arco 暗黑模式下table的样式问题
+.arco-table-tr-checked {
+  .arco-table-td {
+    background-color: var(--color-bg-2) !important;
+  }
+}
+
+// 行内表单，比如list页面的搜索表单
+.my-inline-form {
+  box-sizing: border-box;
+  padding-bottom: 10px;
+
+  .arco-picker,
+  .arco-input,
+  .arco-input-number,
+  .arco-select-view,
+  .arco-input-wrapper,
+  .arco-input-tag,
+  .arco-textarea-wrapper,
+  .arco-select {
+    width: @default-width;
+    max-width: 100%;
+
+    &.arco-picker-range {
+      width: @range-width;
+      max-width: 100%;
+    }
+  }
+}
+
+// JsModal的底部按钮样式
+.js-modal-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  button {
+    margin-left: 10px;
+
+    &:nth-child(1) {
+      margin-left: 0;
+    }
+  }
+}
+
+// 自定义的Popconfirm样式
+.arco-trigger-popup {
+  &.my-a-popconfirm-nobtns {
+    .arco-trigger-content {
+      padding: 8px 16px;
+
+      .arco-popconfirm-body {
+        margin-bottom: 0;
+      }
+
+      .arco-popconfirm-footer {
+        display: none;
+      }
+    }
+  }
+
+  &.my-a-popconfirm-noicon {
+    .arco-popconfirm-body {
+      .arco-popconfirm-icon {
+        display: none;
+      }
+    }
+  }
+}
+
+// 解决上传组件宽度超过100%的问题
+.arco-upload-drag {
+  box-sizing: border-box;
+}
+
+.no-start_icon-upload {
+  .arco-upload-progress {
+    display: none;
+  }
+}
+
+.no-mg-bottom {
+  margin-bottom: 0;
+}
+
+// 删除 arco-design 中table组件的水平滚动条
+.my-empty-table {
+  .arco-table-container {
+    .arco-scrollbar-track-direction-horizontal {
+      display: none;
+
+      .arco-scrollbar-thumb-direction-horizontal {
+        .arco-scrollbar-thumb-bar {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+// table滚动条向下偏移一点，避免遮挡表格内容
+.arco-table-container {
+  .arco-scrollbar-track-direction-horizontal {
+    bottom: -12px;
+  }
+}
+
+// 兼容windows系统下的滚动条样式
+.my-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-neutral-4);
+    border-radius: 6px;
+  }
+}
+
+.my-no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// tree 开启虚拟列表的时候处理里面的滚动条隐藏掉
+.arco-tree {
+  .arco-virtual-list {
+    .my-no-scrollbar();
+  }
+}
+
+// widnows系统下的Menu组件的 滚动条样式
+.arco-menu-vertical {
+  .arco-menu-inner {
+    .my-no-scrollbar();
+  }
+}
+
+// 英文或数字超出折行显示
+.enWrap {
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: normal;
+  line-height: 2em;
+}

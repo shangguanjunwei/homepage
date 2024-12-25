@@ -1,0 +1,1 @@
+exports.package_name_prefix = "@amoayun/"
