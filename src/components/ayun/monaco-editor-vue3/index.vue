@@ -103,6 +103,7 @@ const initDiffData = () => {
 const onDispose = () => {
   editor.dispose && editor.dispose()
   diffEditor.dispose && diffEditor.dispose()
+  languageProvider && languageProvider.dispose()
 }
 onBeforeUnmount(() => onDispose())
 watchPostEffect(() => {
