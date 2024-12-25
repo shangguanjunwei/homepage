@@ -35,14 +35,13 @@ const git_push = async (version) => {
   } else if (commitProcess.status !== 0) {
     throw new Error(`git commit 失败: ${commitProcess.status}`);
   }
-  console.log('请手动处理 git push')
+  const pushProcess2 = spawnSync('git', ['push'], { stdio: 'inherit' });
+  if (pushProcess2.error) {
+    throw new Error(`git push 失败: ${pushProcess2.error}`);
+  } else if (pushProcess2.status !== 0) {
+    throw new Error(`git push 失败: ${pushProcess2.status}`);
+  }
   return;
-  // const pushProcess2 = spawnSync('git', ['push'], { stdio: 'inherit' });
-  // if (pushProcess2.error) {
-  //   throw new Error(`git push 失败: ${pushProcess2.error}`);
-  // } else if (pushProcess2.status !== 0) {
-  //   throw new Error(`git push 失败: ${pushProcess2.status}`);
-  // }
 }
 
 module.exports = git_push;

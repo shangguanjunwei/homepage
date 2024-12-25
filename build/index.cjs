@@ -19,7 +19,7 @@ const init = async () => {
     const version = await build(selected_module, selected_version_changeMode)
     // 处理git提交
     version && await git_push(version)
-    console.log('流程执行结束，请查看修改的文件并手动提交')
+    console.log('流程执行结束')
   } catch (error) {
     console.log(error.message || '流程执行失败')
     process.exit(1)

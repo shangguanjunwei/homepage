@@ -7,7 +7,7 @@ export const monaco_editor_base_config = (): monaco.editor.IStandaloneEditorCons
   automaticLayout: true, // 自动布局
   cursorBlinking: 'expand', // 光标闪烁
   dragAndDrop: true, // 是否允许拖拽内容
-  extraEditorClassName: 'my-test-editor', // 额外的编辑器类名
+  extraEditorClassName: 'amoayun-monaco-editor', // 额外的编辑器类名
   fixedOverflowWidgets: true, // 是否固定溢出的小部件
   glyphMargin: false, // 是否显示行号边距
   lineNumbers: 'on', // 显示行号
