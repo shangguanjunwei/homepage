@@ -8,6 +8,11 @@
 - ✅ ✨插入文本
 - ✅ ✨实时获取选中内容
 - ✅ ✨消除 monaco-editor 副作用
+- 更多功能可以在这里[在线演示](https://commontalk.cn)适用
+
+## 在线演示
+
+了解更多功能请点击[在线演示](https://commontalk.cn)
 
 ## 快速使用
 
