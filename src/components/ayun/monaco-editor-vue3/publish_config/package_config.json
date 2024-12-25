@@ -1,7 +1,7 @@
 {
   "private": false,
   "description": "基于monaco-editor开发的 vue3 组件，支持代码比对、数据双向绑定，自定义提示等功能",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "files": [
     "dist",
     "README.md"
