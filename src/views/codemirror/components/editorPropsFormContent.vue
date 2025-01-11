@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-form :model="editorPropsFormData" auto-label-width >
+    <a-form :model="editorPropsFormData" auto-label-width>
       <a-form-item label="模式">
         <template #extra>
           <div>没有值的情况下默认为 base</div>
@@ -39,15 +39,6 @@
       <a-form-item label="placeholder">
         <a-input v-model="editorPropsFormData.placeholder" allow-clear />
       </a-form-item>
-      <!-- <a-form-item label="config">
-        <a-link :hoverable="false"><em>EditorConfig</em></a-link>
-      </a-form-item> -->
-      <!-- <a-form-item label="modifiedData">
-        <a-link :hoverable="false"><em>modifiedData</em></a-link>
-      </a-form-item>
-      <a-form-item label="originalData">
-        <a-link :hoverable="false"><em>originalData</em></a-link>
-      </a-form-item> -->
     </a-form>
   </div>
 </template>

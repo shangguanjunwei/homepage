@@ -15,22 +15,17 @@
 import { ref } from 'vue'
 import * as monaco from 'monaco-editor'
 import { Notification } from '@arco-design/web-vue';
-const diySuggest = defineModel({ required: true, type: Array, default: () => ([]) })
-const baseData: monaco.languages.CompletionItem[] = [
-  {
-    label: 'amoayun',
-    kind: 17,
-    insertText: '// hello, 我是 amoayun，非常开心能使用我开发的工具，好用的话就推荐给朋友吧！',
-    detail: 'amoayun',
-    documentation: 'hello, 我是 amoayun，非常开心能使用我开发的工具，好用的话就推荐给朋友吧！'
-  }
-] as monaco.languages.CompletionItem[]
-const suggest = ref<string>(JSON.stringify(baseData, null, 4))
+
+const props = defineProps<{
+  modelValue: monaco.languages.CompletionItem[]
+}>()
+const emits = defineEmits(['update:modelValue'])
+const suggest = ref<string>(JSON.stringify(props.modelValue, null, 4))
 const handelUpdate = () => {
   try {
     const list = JSON.parse(suggest.value)
     if (Array.isArray(list)) {
-      diySuggest.value = list;
+      emits('update:modelValue', list)
       Notification.success({
         title: '提示',
         content: '设置成功，快去试试吧'

@@ -2,7 +2,7 @@
   <div class="footer-content">
     <div class="inner">
       <div class="transition-color">
-        Powered by shangguanjunwei ⓒ Copyright shangguanjunwei 2022-{{ dayjs().year() }}
+        Powered by {{ webTitle }} ⓒ Copyright {{ webTitle }} 2022-{{ dayjs().year() }}
       </div>
       <a-link class="transition-color" @click="goGovWeb" :hoverable="false" style="font-size: 14px;">
         京ICP备2022020189号-1
@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import dayjs from 'dayjs';
 const goGovWeb = () => window.open('https://beian.miit.gov.cn/#/Integrated/index')
+const webTitle = import.meta.env.VITE_GLOB_APP_TITLE || ''
 </script>
 
 <style scoped lang="less">
