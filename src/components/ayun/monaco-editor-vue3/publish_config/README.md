@@ -1,32 +1,32 @@
-## 功能支持
+## Feature Support
 
-- ✅ ✨两种模式： diff（代码比对编辑器），base（普通代码编辑器）
-- ✅ ✨数据双向绑定：支持 v-model、v-model:originalData、v-model:modifiedData
-- ✅ ✨多种主题：vs、vs-dark、hc-black、hc-light 四种主题
-- ✅ ✨多种语言高亮：json、css、scss、less、html、typescript、javascript 等
-- ✅ ✨自定义代码提示
-- ✅ ✨插入文本
-- ✅ ✨实时获取选中内容
-- ✅ ✨消除 monaco-editor 副作用
-- 更多功能可以在这里[在线演示](https://commontalk.cn)适用
+- ✅ ✨Two modes: `diff` (code comparison editor), `base` (regular code editor)
+- ✅ ✨Two-way data binding: supports `v-model`, `v-model:originalData`, `v-model:modifiedData`
+- ✅ ✨Multiple themes: `vs`, `vs-dark`, `hc-black`, `hc-light`
+- ✅ ✨Multiple language highlighting: JSON, CSS, SCSS, LESS, HTML, TypeScript, JavaScript, etc.
+- ✅ ✨Multiple language code suggestions and customizable code suggestions
+- ✅ ✨Insert text
+- ✅ ✨Real-time content selection
+- ✅ ✨Elimination of monaco-editor side effects
+- More features can be experienced in the [Online Demo](https://commontalk.cn)
 
-## 在线演示
+## Online Demo
 
-了解更多功能请点击[在线演示](https://commontalk.cn)
+For more features, please visit the [Online Demo](https://commontalk.cn)
 
-## 快速使用
+## Quick Start
 
-1. **安装依赖**
-```
+1. **Install dependencies**
+```bash
 npm i @amoayun/monaco-editor-vue3
 ```
 
-2. **组件依赖微软的 monaco-editor，所以需要安装 monaco-eidtor**
-```
+2. **The component relies on Microsoft's `monaco-editor`, so you need to install it**
+```bash
 npm i monaco-editor
 ```
 
-3. **代码引入**
+3. **Code Import**
 ```javascript
 <template>
     <div>
@@ -69,62 +69,106 @@ npm i monaco-editor
 </script>
 ```
 
-## 高级用法
+## Advanced Usage
 
 ### Props
-| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| Name | Description | Type | Default | Version |
 | ---- | ---- | ---- | ---- | ---- |
-| modelValue（v-model） | 绑定值（base模式） | string | - | - |
-| originalData（v-model） | 绑定值（diff模式） | string | - | - |
-| modifiedData（v-model） | 绑定值（diff模式） | string | - | - |
-| mode | 编辑器模式 | 'diff' \| 'base' | 'base' | - |
-| language | 编辑器语言 | string | "javascript" | - |
-| theme | 编辑器主题 | "vs" \| "vs-dark" \| "hc-black" \| "hc-light" | "vs-dark" | - |
-| placeholder | 提示文字 | string | - | - |
-| disabled | 是否禁用 | base模式：boolean<br />diff模式：[boolean, boolean] | - | - |
-| config | 代码编辑器配置 | <em>ConfigOptions</em> | - | - |
-| diySuggest | 自定义提示 | <em>SuggestItemOptions</em>[] | - | - |
+| modelValue (`v-model`) | Bound value (base mode) | string | - | - |
+| originalData (`v-model`) | Bound value (diff mode) | string | - | - |
+| modifiedData (`v-model`) | Bound value (diff mode) | string | - | - |
+| mode | Editor mode | 'diff' \| 'base' | 'base' | - |
+| language | Editor language | string | "javascript" | - |
+| theme | Editor theme | "vs" \| "vs-dark" \| "hc-black" \| "hc-light" | "vs-dark" | - |
+| placeholder | Placeholder text | string | - | - |
+| disabled | Disabled state | base mode: boolean<br />diff mode: [boolean, boolean] | - | - |
+| config | Code editor configuration | <em>ConfigOptions</em> (see Type below) | - | - |
+| diySuggest | Custom suggestions | <em>SuggestItemOptions</em>[] (see Type below) | - | - |
 
 ### Events
-| 事件名 | 描述 | 参数 |
+| Event Name | Description | Parameter |
 | ---- | ---- | ---- |
-| select | 选中编辑器中的内容 | value:string |
+| select | Select content in the editor | value:string |
+
+- Example Usage:
+```javascript
+<template>
+    <div>
+        <AmoAYunMonacoEditorVue3 v-model="content" language="javascript" style="width: 100%;height: 400px;" @select="handleSelect" />
+    </div>
+</template>
+
+<script setup lang="ts">
+    import { ref } from "vue";
+    import { AmoAYunMonacoEditorVue3 } from "@amoayun/monaco-editor-vue3";
+
+    const content = ref("");
+
+    const handleSelect = (value: string) => {
+        console.log(value);
+    };
+</script>
+```
 
 ### Methods
-| 方法名 | 描述 | 参数 | 返回值 | 版本 |
+| Method Name | Description | Parameter | Return | Version |
 | ---- | ---- | ---- | ---- | ---- |
-| insertText | 插入内容（仅 base 模式可用） | field:string | - | - |
+| insertText | Insert content (only available in base mode) | field:string | - | - |
+
+- Example Usage:
+```javascript
+<template>
+    <div>
+        <AmoAYunMonacoEditorVue3 v-model="content" language="javascript" style="width: 100%;height: 400px;" ref="editor" />
+        <button @click="handleInsert">Insert Content</button>
+    </div>
+</template>
+
+<script setup lang="ts">
+    import { ref } from "vue";
+    import { AmoAYunMonacoEditorVue3 } from "@amoayun/monaco-editor-vue3";
+
+    const content = ref<string>("");
+    const editor = ref<any>(null);
+
+    const handleInsert = () => {
+        editor.value?.insertText("hello world");
+    };
+</script>
+```
 
 ### Type
 
 #### ConfigOptions
-| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| Name | Description | Type | Default | Version |
 | ---- | ---- | ---- | ---- | ---- |
-| autoIndent | 自动缩进 | "brackets" \| "none" \| "keep" \| "advanced" \| "full" | "brackets" | - |
-| contextmenu | 右键菜单 | boolean | false | - |
-| autoClosingBrackets | 自动关闭括号 | "always" \| "languageDefined" \| "beforeWhitespace" \| "never" | "always" | - |
-| automaticLayout | 自动布局 | boolean | true | - |
-| cursorBlinking | 光标模式 | "blink" \| "smooth" \| "phase" \| "expand" \| "solid" | "expand" | - |
-| dragAndDrop | 是否允许拖拽内容 | boolean | true | - |
-| extraEditorClassName | 额外的编辑器类名 | string | "amoayun-monaco-editor" | - |
-| fixedOverflowWidgets | 固定溢出的小部件 | boolean | true | - |
-| glyphMargin | 是否显示行号边距 | boolean | false | - |
-| lineNumbers | 显示行号 | "on" \| "off" \| "relative" \| "interval" | "on" | - |
-| matchBrackets | 是否高亮匹配的括号 | "never" \| "near" \| "always" | "always" | - |
-| overviewRulerBorder | 是否显示概览标尺的边框 | boolean | true | - |
-| scrollBeyondLastLine | 是否允许滚动超过最后一行 | boolean | false | - |
-| showDeprecated | 是否显示过时的代码 | boolean | false | - |
-| showFoldingControls | 折叠控件的显示方式 | "always" \| "never" \| "mouseover" | "always" | - |
-| unfoldOnClickAfterEndOfLine | 折叠控件点击行尾展开 | boolean | true | - |
-| smoothScrolling | 是否平滑滚动 | boolean | true | - |
-| tabCompletion | 是否启用tab补全 | "on" \| "off" \| "onlySnippets" | "on" | - |
-| wordWrap | 自动换行 | "off" \| "on" \| "wordWrapColumn" \| "bounded" | "off" | - |
+| autoIndent | Auto indentation | "brackets" \| "none" \| "keep" \| "advanced" \| "full" | "brackets" | - |
+| contextmenu | Right-click menu | boolean | false | - |
+| autoClosingBrackets | Auto closing brackets | "always" \| "languageDefined" \| "beforeWhitespace" \| "never" | "always" | - |
+| automaticLayout | Automatic layout | boolean | true | - |
+| cursorBlinking | Cursor style | "blink" \| "smooth" \| "phase" \| "expand" \| "solid" | "expand" | - |
+| dragAndDrop | Allow content drag and drop | boolean | true | - |
+| extraEditorClassName | Additional editor class name | string | "amoayun-monaco-editor" | - |
+| fixedOverflowWidgets | Fixed overflow widgets | boolean | true | - |
+| glyphMargin | Show line number margin | boolean | false | - |
+| lineNumbers | Display line numbers | "on" \| "off" \| "relative" \| "interval" | "on" | - |
+| matchBrackets | Highlight matching brackets | "never" \| "near" \| "always" | "always" | - |
+| overviewRulerBorder | Show overview ruler border | boolean | true | - |
+| scrollBeyondLastLine | Allow scrolling beyond the last line | boolean | false | - |
+| showDeprecated | Show deprecated code | boolean | false | - |
+| showFoldingControls | Folding controls display | "always" \| "never" \| "mouseover" | "always" | - |
+| unfoldOnClickAfterEndOfLine | Unfold on end of line click | boolean | true | - |
+| smoothScrolling | Enable smooth scrolling | boolean | true | - |
+| tabCompletion | Enable tab completion | "on" \| "off" \| "onlySnippets" | "on" | - |
+| wordWrap | Word wrapping | "off" \| "on" \| "wordWrapColumn" \| "bounded" | "off" | - |
 
 #### SuggestItemOptions
-| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| Name | Description | Type | Default | Version |
 | ---- | ---- | ---- | ---- | ---- |
-| label | 关键词 | string | - | - |
-| kind | 提示类型 | number | 17 | - |
-| insertText | 关键词插入的文本 | string | 优先取insertText值，label次之 | - |
-| detail | 简述 | string | - | - |
-| documentation | 详细描述 | string | - | - | 
+| label | Keyword | string | - | - |
+| kind | Suggestion type | number | 17 | - |
+| insertText | Text to insert for the keyword | string | Uses insertText value first, label second | - |
+| detail | Brief description | string | - | - |
+| documentation | Detailed description | string | - | - |
+
+
