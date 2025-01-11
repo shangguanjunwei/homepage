@@ -1,3 +1,13 @@
+
+
+<center>
+<h3>
+<a href="https://commontalk.cn">在线demo</a>
+｜
+<a href="https://github.com/shangguanjunwei/homepage/blob/main/src/components/ayun/monaco-editor-vue3/publish_config/README.zh.md">中文文档</a>
+</h3>
+</center>
+
 ## Feature Support
 
 - ✅ ✨Two modes: `diff` (code comparison editor), `base` (regular code editor)
