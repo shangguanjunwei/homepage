@@ -103,8 +103,8 @@
 <script setup lang="ts" name="codemirror">
 import { reactive, ref, watch } from 'vue'
 import { AmoAYunMonacoEditorVue3 } from '@/components/ayun/monaco-editor-vue3/publish_config/index'
-import '@/components/ayun/monaco-editor-vue3/utils/worker'
-import * as monaco from 'monaco-editor'
+import '@/views/codemirror/worker'
+import * as monaco from 'monaco-editor';
 import editorPropsFormContent from './components/editorPropsFormContent.vue'
 import editorConfig from './components/editorConfig.vue'
 import diySuggestOptions from './components/diySuggestOptions.vue'

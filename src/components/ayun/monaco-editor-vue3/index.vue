@@ -37,12 +37,26 @@ const emits = defineEmits([
 const editorRef = ref<HTMLElement | null>(null)
 let editor: Partial<monaco.editor.IStandaloneCodeEditor> = {};
 let diffEditor: Partial<monaco.editor.IStandaloneDiffEditor> = {};
-let languageProvider: monaco.IDisposable | null = null
 const editorIsReady = ref<boolean>(false)
 const finalMode = computed(() => props.mode || 'base')
 const finalLanguage = computed(() => props.language || 'javascript')
-const finalTheme = computed(() => props.theme || 'vs-dark')
-
+const finalTheme = computed(() => props.theme || 'vs-dark');
+const _self = window as any
+_self.amoayunMonacoEditorLanguageProvider = {};
+_self.languageProvider = {
+  set: (language: string, suggest: monaco.languages.CompletionItem[]) => {
+    _self.amoayunMonacoEditorLanguageProvider[language] && _self.amoayunMonacoEditorLanguageProvider[language].dispose();
+    delete _self.amoayunMonacoEditorLanguageProvider[language];
+    _self.amoayunMonacoEditorLanguageProvider[language] = registerProvider(language, suggest)
+  },
+  dispose: (language: string) => {
+    _self.amoayunMonacoEditorLanguageProvider[language] && _self.amoayunMonacoEditorLanguageProvider[language].dispose();
+    delete _self.amoayunMonacoEditorLanguageProvider[language];
+    if (Object.keys(_self.amoayunMonacoEditorLanguageProvider).length === 0) {
+      _self.amoayunMonacoEditorLanguageProvider = {};
+    }
+  }
+}
 const initBaseData = () => {
   editor = monaco.editor.create(
     editorRef.value!,
@@ -70,8 +84,8 @@ const initDiffData = () => {
     editorRef.value!,
     monaco_editor_base_config()
   )
-  const modifiedModel = monaco.editor.createModel('12\n34\n56\n78\n90')
-  const originalModel = monaco.editor.createModel('12')
+  const modifiedModel = monaco.editor.createModel('')
+  const originalModel = monaco.editor.createModel('')
   diffEditor.setModel && diffEditor.setModel({
     original: originalModel,
     modified: modifiedModel
@@ -103,7 +117,7 @@ const initDiffData = () => {
 const onDispose = () => {
   editor.dispose && editor.dispose()
   diffEditor.dispose && diffEditor.dispose()
-  languageProvider && languageProvider.dispose()
+  _self.languageProvider.dispose(finalLanguage.value)
 }
 onBeforeUnmount(() => onDispose())
 watchPostEffect(() => {
@@ -176,8 +190,7 @@ watchPostEffect(() => {
       monaco.editor.setModelLanguage(model, '')
       monaco.editor.setModelLanguage(model, finalLanguage.value || '')
     }
-    languageProvider && languageProvider.dispose()
-    languageProvider = registerProvider(finalLanguage.value, props.diySuggest || [])
+    _self.languageProvider.set(finalLanguage.value, props.diySuggest || [])
     return
   }
   if (finalMode.value === 'diff') {
@@ -188,8 +201,7 @@ watchPostEffect(() => {
       monaco.editor.setModelLanguage(original, '')
       monaco.editor.setModelLanguage(original, finalLanguage.value || '')
     }
-    languageProvider && languageProvider.dispose()
-    languageProvider = registerProvider(finalLanguage.value, props.diySuggest || [])
+    _self.languageProvider.set(finalLanguage.value, props.diySuggest || [])
     return
   }
 })
