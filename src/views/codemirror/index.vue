@@ -1,41 +1,79 @@
 <template>
   <div>
-    <a-space direction="vertical" fill>
-      <a-drawer width="720px" v-model:visible="visible" unmountOnClose :footer="false">
-        <template #title>
-          完整配置
-        </template>
-        <a-collapse :default-active-key="[1, 2, 3]">
-          <a-collapse-item header="基础配置" :key="1">
-            <editorPropsFormContent v-model="editorPropsFormData" />
-          </a-collapse-item>
-          <a-collapse-item header="自定义提示" :key="2">
-            <diySuggestOptions v-model="diySuggest" />
-          </a-collapse-item>
-          <a-collapse-item header="更多配置" :key="3">
-            <editorConfig v-model="editorConfigFromData" />
-          </a-collapse-item>
-        </a-collapse>
-      </a-drawer>
-      <a-affix :offsetTop="0" target="#basic-scrollbar">
-        <a-card title="基础配置">
-          <template #extra>
-            <a-button size="mini" type="primary" @click="visible = true">
-              打开完整配置
-            </a-button>
+    <a-drawer height="90vh" v-model:visible="visible" placement="bottom" unmountOnClose :footer="false">
+      <template #title>
+        <div>
+          完整配置项可参考
+          <a-link href="https://microsoft.github.io/monaco-editor/" :hoverable="false">
+            Monaco Editor 官方文档
+          </a-link>
+
+          <a-link href="javascript:void(0);" @click.stop="handleCopyAll" :hoverable="false" style="margin-left: 8px;">
+            <icon-copy />
+          </a-link>
+        </div>
+      </template>
+      <a-collapse :default-active-key="[1, 2, 3]">
+        <a-collapse-item :key="1">
+          <template #header>
+            <div style="display: flex;align-items: center;">
+              基础配置
+              <a-link href="javascript:void(0);" @click.stop="handleCopyEditorProps" :hoverable="false"
+                style="margin-left: 8px;">
+                <icon-copy />
+              </a-link>
+            </div>
           </template>
-          <a-form :model="editorPropsFormData" layout="inline" class="my-inline-form">
-            <a-form-item label="模式">
-              <a-select v-model="editorPropsFormData.mode" placeholder="请选择"
-                :trigger-props="{ autoFitPopupMinWidth: true }" allow-clear :options="enums.modeEnums" />
-            </a-form-item>
-            <a-form-item label="语言">
-              <a-select v-model="editorPropsFormData.language" placeholder="请选择" allow-search
-                :trigger-props="{ autoFitPopupMinWidth: true }" allow-clear :options="enums.languageEnums" />
-            </a-form-item>
-          </a-form>
-        </a-card>
-      </a-affix>
+          <editorPropsFormContent v-model="editorPropsFormData" />
+        </a-collapse-item>
+        <a-collapse-item :key="2">
+          <template #header>
+            <div style="display: flex;align-items: center;">
+              自定义提示
+              <a-link href="javascript:void(0);" @click.stop="handleCopyDiySuggest" :hoverable="false"
+                style="margin-left: 8px;">
+                <icon-copy />
+              </a-link>
+            </div>
+          </template>
+          <diySuggestOptions v-model="diySuggest" />
+        </a-collapse-item>
+        <a-collapse-item header="更多配置" :key="3">
+          <template #header>
+            <div style="display: flex;align-items: center;">
+              更多配置
+              <a-link href="javascript:void(0);" @click.stop="handleCopyEditorConfig" :hoverable="false"
+                style="margin-left: 8px;">
+                <icon-copy />
+              </a-link>
+            </div>
+          </template>
+          <template #extra>
+            <icon-copy />
+          </template>
+          <editorConfig v-model="editorConfigFromData" />
+        </a-collapse-item>
+      </a-collapse>
+    </a-drawer>
+
+    <a-space direction="vertical" fill>
+      <a-card title="基础配置">
+        <template #extra>
+          <a-button type="primary" @click="visible = true">
+            打开完整配置
+          </a-button>
+        </template>
+        <a-form :model="editorPropsFormData" layout="inline" class="my-inline-form">
+          <a-form-item label="模式">
+            <a-select v-model="editorPropsFormData.mode" placeholder="请选择"
+              :trigger-props="{ autoFitPopupMinWidth: true }" allow-clear :options="enums.modeEnums" />
+          </a-form-item>
+          <a-form-item label="语言">
+            <a-select v-model="editorPropsFormData.language" placeholder="请选择" allow-search
+              :trigger-props="{ autoFitPopupMinWidth: true }" allow-clear :options="enums.languageEnums" />
+          </a-form-item>
+        </a-form>
+      </a-card>
 
       <!-- 外侧内容区域 -->
       <a-card :title="`${editorPropsFormData.mode || 'base'} 模式`">
@@ -44,38 +82,40 @@
             <template v-if="editorPropsFormData.mode === 'base' || !editorPropsFormData.mode">
               <a-col :span="8">
                 <a-card title="v-model:modelValue">
-                  <a-textarea v-model="content" :auto-size="{ minRows: 4 }" placeholder="输入内容试试看？" />
+                  <a-textarea v-model="content" :auto-size="{ minRows: 4, maxRows: 4 }" placeholder="输入内容试试看？" />
                 </a-card>
               </a-col>
               <a-col :span="8">
                 <a-card title="选中的内容">
-                  <a-textarea v-model="selectText" disabled :auto-size="{ minRows: 4 }"
+                  <a-textarea v-model="selectText" disabled :auto-size="{ minRows: 4, maxRows: 4 }"
                     placeholder="使用鼠标选中编辑器中的部分内容或者Ctrl+A选中编辑器的全部内容试试？" />
                 </a-card>
               </a-col>
               <a-col :span="8">
                 <a-card title="插入指定内容">
                   <template #extra>
-                    <a-button size="mini" type="primary" @click="handleInsert">插入</a-button>
+                    <a-button type="primary" @click="handleInsert">插入</a-button>
                   </template>
-                  <a-textarea v-model="willInsertText" :auto-size="{ minRows: 4 }" placeholder="请输入想要插入的内容，然后点击插入试试？" />
+                  <a-textarea v-model="willInsertText" :auto-size="{ minRows: 4, maxRows: 4 }"
+                    placeholder="请输入想要插入的内容，然后点击插入试试？" />
                 </a-card>
               </a-col>
             </template>
+
             <template v-if="editorPropsFormData.mode === 'diff'">
               <a-col :span="8">
                 <a-card title="v-model:originalData">
-                  <a-textarea v-model="originalData" :auto-size="{ minRows: 4 }" placeholder="输入内容试试看？" />
+                  <a-textarea v-model="originalData" :auto-size="{ minRows: 4, maxRows: 4 }" placeholder="输入内容试试看？" />
                 </a-card>
               </a-col>
               <a-col :span="8">
                 <a-card title="v-model:modifiedData">
-                  <a-textarea v-model="modifiedData" :auto-size="{ minRows: 4 }" placeholder="输入内容试试看？" />
+                  <a-textarea v-model="modifiedData" :auto-size="{ minRows: 4, maxRows: 4 }" placeholder="输入内容试试看？" />
                 </a-card>
               </a-col>
               <a-col :span="8">
                 <a-card title="选中的内容">
-                  <a-textarea v-model="selectText" disabled :auto-size="{ minRows: 4 }"
+                  <a-textarea v-model="selectText" disabled :auto-size="{ minRows: 4, maxRows: 4 }"
                     placeholder="使用鼠标选中编辑器中的部分内容或者Ctrl+A选中编辑器的全部内容试试？" />
                 </a-card>
               </a-col>
@@ -108,7 +148,9 @@ import * as monaco from 'monaco-editor';
 import editorPropsFormContent from './components/editorPropsFormContent.vue'
 import editorConfig from './components/editorConfig.vue'
 import diySuggestOptions from './components/diySuggestOptions.vue'
+import { copyText } from '@/utils/copyUtil';
 import enums from './enums'
+import JsMessageForFullScreen from '@/utils/jsComponent/JsMessageForFullScreen';
 const editorConfigFromData = reactive<monaco.editor.IStandaloneEditorConstructionOptions | monaco.editor.IStandaloneDiffEditorConstructionOptions>({
   autoIndent: 'brackets', // 自动缩进
   contextmenu: false, // 右键菜单
@@ -165,12 +207,44 @@ watch(() => editorPropsFormData.mode, (newVal) => {
     return
   }
 })
+
+const handleCopyEditorProps = () => {
+  copyText(JSON.stringify(editorPropsFormData, null, 2))
+    .then(() => {
+      JsMessageForFullScreen.success('复制成功')
+    })
+}
+
+const handleCopyDiySuggest = () => {
+  copyText(JSON.stringify({ diySuggest: diySuggest.value }, null, 2))
+    .then(() => {
+      JsMessageForFullScreen.success('复制成功')
+    })
+}
+
+const handleCopyEditorConfig = () => {
+  copyText(JSON.stringify({ config: editorConfigFromData }, null, 2))
+    .then(() => {
+      JsMessageForFullScreen.success('复制成功')
+    })
+}
+
+const handleCopyAll = () => {
+  copyText(JSON.stringify({
+    ...editorPropsFormData,
+    diySuggest: diySuggest.value,
+    config: editorConfigFromData
+  }, null, 2))
+    .then(() => {
+      JsMessageForFullScreen.success('复制成功')
+    })
+}
 </script>
 
 <style scoped lang="less">
 .out-code-div {
   width: 100%;
-  height: 520px;
+  height: calc(100vh - 180px);
 
   .code-div {
     width: 100%;

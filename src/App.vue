@@ -1,5 +1,5 @@
 <template>
-  <a-config-provider :global="true" size="small" :locale="zhCN" :update-at-scroll="true" :scroll-to-close="true"
+  <a-config-provider :global="true" size="medium" :locale="zhCN" :update-at-scroll="true" :scroll-to-close="true"
     :exchange-time="false">
     <a-watermark>
       <router-view></router-view>

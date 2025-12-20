@@ -27,14 +27,16 @@
             <div>当模式为 diff 时，disabled 类型应为 [boolean, boolean]</div>
           </div>
         </template>
-        <a-select v-model="disabled" placeholder="请选择" :trigger-props="{ autoFitPopupMinWidth: true }" allow-clear>
-          <a-option :value="1">true</a-option>
-          <a-option :value="2">false</a-option>
-          <a-option :value="3">true,true</a-option>
-          <a-option :value="4">true,false</a-option>
-          <a-option :value="5">false,true</a-option>
-          <a-option :value="6">false,false</a-option>
-        </a-select>
+        <a-radio-group v-model="disabled" placeholder="请选择" :trigger-props="{ autoFitPopupMinWidth: true }" allow-clear>
+          <a-space direction="vertical">
+            <a-radio :value="1">true（仅支持 base 模式）</a-radio>
+            <a-radio :value="2">false（仅支持 base 模式）</a-radio>
+            <a-radio :value="3">true,true（仅支持 diff 模式）</a-radio>
+            <a-radio :value="4">true,false（仅支持 diff 模式）</a-radio>
+            <a-radio :value="5">false,true（仅支持 diff 模式）</a-radio>
+            <a-radio :value="6">false,false（仅支持 diff 模式）</a-radio>
+          </a-space>
+        </a-radio-group>
       </a-form-item>
       <a-form-item label="placeholder">
         <a-input v-model="editorPropsFormData.placeholder" allow-clear />

@@ -1,24 +1,28 @@
 <template>
 	<div class="home">
 		<div class="grid-demo">
-			<a-card v-for="(item, index) in list" :key="index" :title="item.title">
-				<template #extra>
-					<a-link @click="handleJumpTo('demo', item.demo_url)" :hoverable="false" style="font-size: 12px;">
-						在线演示
-					</a-link>
-					<a-divider direction="vertical" />
-					<a-tooltip content="github">
-						<a-link @click="handleJumpTo('github', item.git_url)" :hoverable="false">
-							<icon-github />
-						</a-link>
-					</a-tooltip>
-				</template>
-				<ol>
-					<li v-for="(descImte, descIndex) in item.desc" :key="descIndex">
-						<p>{{ descImte }}</p>
-					</li>
-				</ol>
-			</a-card>
+			<div v-for="(item, index) in list" :key="index">
+				<a-link @click="handleJumpTo('demo', item.demo_url)" :hoverable="false">
+					<a-card :title="item.title">
+						<template #extra>
+							<a-link @click.stop="handleJumpTo('demo', item.demo_url)" :hoverable="false">
+								在线演示
+							</a-link>
+							<a-divider direction="vertical" />
+							<a-tooltip content="github">
+								<a-link @click.stop="handleJumpTo('github', item.git_url)" :hoverable="false">
+									<icon-github />
+								</a-link>
+							</a-tooltip>
+						</template>
+						<ol>
+							<li v-for="(descImte, descIndex) in item.desc" :key="descIndex">
+								<p>{{ descImte }}</p>
+							</li>
+						</ol>
+					</a-card>
+				</a-link>
+			</div>
 		</div>
 	</div>
 </template>
